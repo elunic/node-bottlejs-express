@@ -1,0 +1,22 @@
+{
+  "name": "bottlejs-express",
+  "version": "0.0.1-beta.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": {
+    "name": "William Hefter",
+    "email": "wh@elunic.com"
+  },
+  "license": "MIT",
+  "engines": {
+    "node" : ">= 6.14.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/elunic/bottlejs-express.git"
+  }
+}
