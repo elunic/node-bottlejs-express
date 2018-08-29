@@ -1,12 +1,14 @@
 {
   "name": "bottlejs-express",
-  "version": "0.0.1-beta.1",
-  "description": "",
+  "version": "0.0.1",
+  "description": "Provides functions to help with the integration of Express routes/middlewares and bottlejs services",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "bottlejs",
+    "express"
+  ],
   "author": {
     "name": "William Hefter",
     "email": "wh@elunic.com"
@@ -17,6 +19,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/elunic/bottlejs-express.git"
+    "url": "git://github.com/elunic/node-bottlejs-express.git"
   }
 }
