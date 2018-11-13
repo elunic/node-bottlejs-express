@@ -1,9 +1,16 @@
 {
   "name": "bottlejs-express",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Provides functions to help with the integration of Express routes/middlewares and bottlejs services",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
+    "check": "gts check",
+    "clean": "gts clean",
+    "compile": "tsc -p .",
+    "fix": "gts fix",
+    "prepare": "npm run compile",
+    "pretest": "npm run compile",
+    "posttest": "npm run check"
   },
   "keywords": [
     "bottlejs",
@@ -15,10 +22,17 @@
   },
   "license": "MIT",
   "engines": {
-    "node" : ">= 6.14.0"
+    "node": ">= 6.14.0"
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/elunic/node-bottlejs-express.git"
+  },
+  "devDependencies": {
+    "@types/express": "^4.16.0",
+    "bottlejs": "^1.7.1",
+    "express": "^4.16.4",
+    "gts": "^0.9.0",
+    "typescript": "~3.1.0"
   }
 }
