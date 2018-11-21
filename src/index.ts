@@ -6,11 +6,12 @@ import {
   RequestHandler,
   Response,
 } from 'express';
+const _Map: typeof Map = require('es6-map');
 
 export function makeRouteInvoker(bottle: Bottle, classConstructor: new(...args: any[]) => any, ...injectedServiceNames: string[]): (method: string) => RequestHandler;
 export function makeRouteInvoker(bottle: Bottle, serviceName: string): (method: string) => RequestHandler;
 export function makeRouteInvoker(bottle: Bottle, classOrServicename: string | (new(...args: any[]) => any), ...injectedServiceNames: string[]): (method: string) => RequestHandler {
-  const invokers = new Map();
+  const invokers = new _Map();
 
   // The service will be fetched only once the first route is actually called.
   // This is necessary to prevent services from being called before they have been wired up

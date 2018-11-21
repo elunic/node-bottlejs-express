@@ -1,11 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var _Map = require('es6-map');
 function makeRouteInvoker(bottle, classOrServicename) {
     var injectedServiceNames = [];
     for (var _i = 2; _i < arguments.length; _i++) {
         injectedServiceNames[_i - 2] = arguments[_i];
     }
-    var invokers = new Map();
+    var invokers = new _Map();
     // The service will be fetched only once the first route is actually called.
     // This is necessary to prevent services from being called before they have been wired up
     // or defined.

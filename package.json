@@ -1,6 +1,6 @@
 {
   "name": "bottlejs-express",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Provides functions to help with the integration of Express routes/middlewares and bottlejs services",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -23,7 +23,7 @@
   },
   "license": "MIT",
   "engines": {
-    "node": ">= 6.14.0"
+    "node": ">= 0.10"
   },
   "repository": {
     "type": "git",
@@ -35,5 +35,8 @@
     "express": "^4.16.4",
     "gts": "^0.9.0",
     "typescript": "~3.1.0"
+  },
+  "dependencies": {
+    "es6-map": "^0.1.5"
   }
 }
