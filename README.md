@@ -27,6 +27,51 @@ $ npm install bottlejs-express
 
 
 #### Wrapping routes
+
+
+##### Using a class constructor (recommended)
+
+Pass a class constructor (must be `new`-able) to `makeRouteInvoker` along with the services
+you wish to have "injected" to the class constructor.
+
+This way prevents the container from being polluted with the Route "service".
+
+```js
+const {makeRouteInvoker} = require('bottlejs-express');
+
+module.exports = ({bottle, expressApp}) => {
+    const routeInvoker = makeRouteInvoker(bottle, PostsRouter, 'dbService', 'otherService');
+
+    expressApp.get('/posts/:postId', routeInvoker('getById'));
+    expressApp.post('/posts', routeInvoker('create'));
+};
+
+class PostsRouter {
+    // Note: using TypeScript, you can do
+    //  constructor(private dbService, private otherService) {}
+    constructor(dbService, otherService) {
+        this.dbService = dbService;
+        this.otherService = otherService;
+    }
+
+    async getById(req, res, next) {
+        const {postId} = req.params;
+        
+        try {
+            await post = await this.dbService.query('SELECT ... WHERE ID ...');
+            
+            res.status(200).send({
+                data: post,
+            });
+        } catch (ex) {
+            res.status(500).send(`An error occured: ${ex.toString()}`);
+        }
+    }
+}
+```
+
+##### Using a service registered on a `Bottle`
+
 ```js
 const {makeRouteInvoker} = require('bottlejs-express');
 
@@ -41,7 +86,6 @@ module.exports = ({bottle, expressApp}) => {
 function PostsRouter({dbService}) {
     const service = {
         getById,
-        create,
     };
 
     ////
@@ -55,18 +99,6 @@ function PostsRouter({dbService}) {
             res.status(200).send({
                 data: post,
             });
-        } catch (ex) {
-            res.status(500).send(`An error occured: ${ex.toString()}`);
-        }
-    }
-
-    async function create(req, res, next) {
-        const {data} = req.body;
-        
-        try {
-            await dbService.query('INSERT INTO ...');
-            
-            res.status(201).send('OK');
         } catch (ex) {
             res.status(500).send(`An error occured: ${ex.toString()}`);
         }

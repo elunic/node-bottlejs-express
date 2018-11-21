@@ -1,14 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-function makeRouteInvoker(bottle, serviceName) {
+function makeRouteInvoker(bottle, classOrServicename) {
+    var injectedServiceNames = [];
+    for (var _i = 2; _i < arguments.length; _i++) {
+        injectedServiceNames[_i - 2] = arguments[_i];
+    }
     var invokers = new Map();
     // The service will be fetched only once the first route is actually called.
     // This is necessary to prevent services from being called before they have been wired up
     // or defined.
     /* tslint:disable-next-line:no-any */
     var service;
-    if (!bottle.list().includes(serviceName)) {
-        throw new Error("Cannot make routeInvoker for non-existent service '" + serviceName);
+    if (typeof classOrServicename === 'string') {
+        if (!bottle.list().includes(classOrServicename)) {
+            throw new Error("Cannot make routeInvoker for non-existent service '" + classOrServicename);
+        }
     }
     return function routeInvoker(methodName) {
         if (invokers.has(methodName)) {
@@ -16,13 +22,19 @@ function makeRouteInvoker(bottle, serviceName) {
         }
         var routeInvoker = _asyncErrorWrapper(function routeInvoker(req, res, next) {
             if (!service) {
-                service = bottle.container[serviceName];
-                if (!service) {
-                    throw new Error("Could not fetch service '" + serviceName + "' from container");
+                if (typeof classOrServicename === 'string') {
+                    service = bottle.container[classOrServicename];
+                    if (!service) {
+                        throw new Error("Could not fetch service '" + classOrServicename + "' from container");
+                    }
+                }
+                else {
+                    var injectedServices = injectedServiceNames.map(function (name) { return bottle.container[name]; });
+                    service = new (classOrServicename.bind.apply(classOrServicename, [void 0].concat(injectedServices)))();
                 }
             }
             if (typeof service[methodName] !== 'function') {
-                throw new Error("Invoked method '" + methodName + "' not in route service '" + serviceName + ".");
+                throw new Error("Invoked method '" + methodName + "' not in route service '" + classOrServicename + ".");
             }
             return service[methodName](req, res, next);
         });

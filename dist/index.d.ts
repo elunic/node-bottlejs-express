@@ -1,5 +1,6 @@
 import * as Bottle from 'bottlejs';
-import * as Express from 'express';
-export declare function makeRouteInvoker(bottle: Bottle, serviceName: string): (methodName: string) => any;
-export declare function makeMiddlewareInvoker(bottle: Bottle, middlewareFactory: Function): Express.RequestHandler;
-export declare function makeErrorMiddlewareInvoker(bottle: Bottle, middlewareFactory: Function): Express.ErrorRequestHandler;
+import { ErrorRequestHandler, RequestHandler } from 'express';
+export declare function makeRouteInvoker(bottle: Bottle, classConstructor: new (...args: any[]) => any, ...injectedServiceNames: string[]): (method: string) => RequestHandler;
+export declare function makeRouteInvoker(bottle: Bottle, serviceName: string): (method: string) => RequestHandler;
+export declare function makeMiddlewareInvoker(bottle: Bottle, middlewareFactory: Function): RequestHandler;
+export declare function makeErrorMiddlewareInvoker(bottle: Bottle, middlewareFactory: Function): ErrorRequestHandler;

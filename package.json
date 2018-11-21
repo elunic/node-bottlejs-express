@@ -1,8 +1,9 @@
 {
   "name": "bottlejs-express",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Provides functions to help with the integration of Express routes/middlewares and bottlejs services",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "check": "gts check",
     "clean": "gts clean",
