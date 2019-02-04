@@ -1,3 +1,15 @@
 {
-  "extends": "gts/tslint.json"
+  "extends": [
+    "gts/tslint.json",
+    "tslint-config-prettier"
+  ],
+  "rules": {
+    "ordered-imports": [
+      true,
+      {
+        "grouped-imports": true
+      }
+    ],
+    "no-default-export": false
+  }
 }

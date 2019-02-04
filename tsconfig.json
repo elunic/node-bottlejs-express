@@ -3,8 +3,8 @@
   "compilerOptions": {
     "declaration": true,
     "target": "es5",
-    "rootDir": "src",
-    "outDir": "dist",
+    "rootDir": "./",
+    "outDir": "./dist",
     "lib": [
       "esnext"
     ]

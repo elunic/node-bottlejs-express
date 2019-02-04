@@ -1,22 +1,28 @@
+/* tslint:disable:no-any (we want any in the exported declarations) */
+
 import * as Bottle from 'bottlejs';
-import {
-  ErrorRequestHandler,
-  NextFunction,
-  Request,
-  RequestHandler,
-  Response,
-} from 'express';
+import { ErrorRequestHandler, NextFunction, Request, RequestHandler, Response } from 'express';
 const _Map: typeof Map = require('es6-map');
 
-export function makeRouteInvoker(bottle: Bottle, classConstructor: new(...args: any[]) => any, ...injectedServiceNames: string[]): (method: string) => RequestHandler;
-export function makeRouteInvoker(bottle: Bottle, serviceName: string): (method: string) => RequestHandler;
-export function makeRouteInvoker(bottle: Bottle, classOrServicename: string | (new(...args: any[]) => any), ...injectedServiceNames: string[]): (method: string) => RequestHandler {
+export function makeRouteInvoker(
+  bottle: Bottle,
+  classConstructor: new (...args: any[]) => any,
+  ...injectedServiceNames: string[]
+): (method: string) => RequestHandler;
+export function makeRouteInvoker(
+  bottle: Bottle,
+  serviceName: string,
+): (method: string) => RequestHandler;
+export function makeRouteInvoker(
+  bottle: Bottle,
+  classOrServicename: string | (new (...args: any[]) => any),
+  ...injectedServiceNames: string[]
+): (method: string) => RequestHandler {
   const invokers = new _Map();
 
   // The service will be fetched only once the first route is actually called.
   // This is necessary to prevent services from being called before they have been wired up
   // or defined.
-  /* tslint:disable-next-line:no-any */
   let service: any;
 
   if (typeof classOrServicename === 'string') {
@@ -30,7 +36,11 @@ export function makeRouteInvoker(bottle: Bottle, classOrServicename: string | (n
       return invokers.get(methodName);
     }
 
-    const routeInvoker = _asyncErrorWrapper(function routeInvoker(req: Request, res: Response, next: NextFunction) {
+    const routeInvoker = _asyncErrorWrapper(function routeInvoker(
+      req: Request,
+      res: Response,
+      next: NextFunction,
+    ) {
       if (!service) {
         if (typeof classOrServicename === 'string') {
           service = bottle.container[classOrServicename];
@@ -45,7 +55,9 @@ export function makeRouteInvoker(bottle: Bottle, classOrServicename: string | (n
       }
 
       if (typeof service[methodName] !== 'function') {
-        throw new Error(`Invoked method '${methodName}' not in route service '${classOrServicename}.`);
+        throw new Error(
+          `Invoked method '${methodName}' not in route service '${classOrServicename}.`,
+        );
       }
 
       return service[methodName](req, res, next);
@@ -60,7 +72,11 @@ export function makeRouteInvoker(bottle: Bottle, classOrServicename: string | (n
 export function makeMiddlewareInvoker(bottle: Bottle, middlewareFactory: Function): RequestHandler {
   let middleware: RequestHandler;
 
-  const middlewareInvoker = _asyncErrorWrapper(function middlewareInvoker(req: Request, res: Response, next: NextFunction) {
+  const middlewareInvoker = _asyncErrorWrapper(function middlewareInvoker(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
     if (!middleware) {
       try {
         middleware = middlewareFactory(bottle.container);
@@ -68,7 +84,6 @@ export function makeMiddlewareInvoker(bottle: Bottle, middlewareFactory: Functio
         ex.message = `Could not fetch middleware from middlewareFactory: ${ex.message}`;
         throw ex;
       }
-
 
       if (!middleware) {
         throw new Error(`Could not fetch middleware from middlewareFactory`);
@@ -81,10 +96,18 @@ export function makeMiddlewareInvoker(bottle: Bottle, middlewareFactory: Functio
   return middlewareInvoker;
 }
 
-export function makeErrorMiddlewareInvoker(bottle: Bottle, middlewareFactory: Function): ErrorRequestHandler {
+export function makeErrorMiddlewareInvoker(
+  bottle: Bottle,
+  middlewareFactory: Function,
+): ErrorRequestHandler {
   let middleware: ErrorRequestHandler;
 
-  const middlewareInvoker = _asyncErrorWrapper(function middlewareInvoker(err: Error, req: Request, res: Response, next: NextFunction) {
+  const middlewareInvoker = _asyncErrorWrapper(function middlewareInvoker(
+    err: Error,
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
     if (!middleware) {
       middleware = middlewareFactory(bottle.container);
     }
