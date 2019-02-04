@@ -49,7 +49,8 @@ export function makeRouteInvoker(
             throw new Error(`Could not fetch service '${classOrServicename}' from container`);
           }
         } else {
-          const injectedServices = injectedServiceNames.map(name => bottle.container[name]);
+          // Use bottle to resolve the service names to honor the Bottle.config.strict setting
+          const injectedServices = bottle.digest(injectedServiceNames);
           service = new classOrServicename(...injectedServices);
         }
       }
