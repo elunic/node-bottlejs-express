@@ -1,6 +1,6 @@
 {
   "name": "bottlejs-express",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Provides functions to help with the integration of Express routes/middlewares and bottlejs services",
   "main": "dist/src/index.js",
   "typings": "dist/src/index.d.ts",
@@ -21,7 +21,8 @@
     "url": "git://github.com/elunic/node-bottlejs-express.git"
   },
   "files": [
-    "dist/src/"
+    "dist/src/",
+    "strict.*"
   ],
   "scripts": {
     "test": "npm run clean && npm run compile && npx jasmine 'dist/test/**/*.spec.js'",

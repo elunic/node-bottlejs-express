@@ -13,6 +13,7 @@ Inspired in part by [`awilix-express`](https://github.com/talyssonoc/awilix-expr
   * [Wrapping routes](#wrapping-routes)
   * [Wrapping middlewares](#wrapping-error-middlewares)
   * [Wrapping error middlewares](#wrapping-middlewares)
+  * [Strict mode convenience module](#strict-mode-convenience-module)
 - [License](#license)
 
 
@@ -159,6 +160,18 @@ function ErrorHandlerMiddlewareFactory({loggingService}) {
 }
 ```
 
+
+#### Strict mode convenience module
+
+A convenience import is available to enable strict mode on `bottlejs`:
+
+```typescript
+import 'bottlejs-express/strict';
+```
+
+```javascript
+require('bottlejs-express/strict');
+```
 
 
 ## License
