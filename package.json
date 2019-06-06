@@ -1,6 +1,6 @@
 {
   "name": "bottlejs-express",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Provides functions to help with the integration of Express routes/middlewares and bottlejs services",
   "main": "dist/src/index.js",
   "typings": "dist/src/index.d.ts",
